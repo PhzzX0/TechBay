@@ -1,0 +1,46 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+main {
+  margin-top: 80px;
+  padding: 1rem;
+}
+
+
+.gradient-bg {
+    background: linear-gradient(135deg, #be1111  0%, #ac1037 100%);
+}
+
+.header-bg{
+    background: linear-gradient(135deg, #110505  0%, #8b0b0b 100%);
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.rating-stars {
+    color: #fbbf24;
+}
+
+.map-container {
+    height: 300px;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
