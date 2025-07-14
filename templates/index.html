@@ -11,17 +11,6 @@
 </head>
 
 <body class="font-sans bg-stone-50">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="container mx-auto px-4 mt-20">
-                {% for category, message in messages %}
-                    <div class="p-3 rounded-md mb-2 {% if category == 'success' %}bg-green-100 text-green-800{% elif category == 'danger' %}bg-red-100 text-red-800{% elif category == 'info' %}bg-blue-100 text-blue-800{% elif category == 'warning' %}bg-yellow-100 text-yellow-800{% endif %}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
     <!-- Header/Navbar -->
     <header class="header-bg text-white shadow-xl">
         <div class="container mx-auto px-4 py-4">
@@ -56,6 +45,17 @@
 
     <!-- Início -->
     <section id="home" class="gradient-bg text-white md:py-24 py-16 pt-40">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container mx-auto px-4">
+                    {% for category, message in messages %}
+                        <div class="p-3 rounded-md mb-2 {% if category == 'success' %}bg-green-100 text-green-800{% elif category == 'danger' %}bg-red-100 text-red-800{% elif category == 'info' %}bg-blue-100 text-blue-800{% elif category == 'warning' %}bg-yellow-100 text-yellow-800{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <div class="w-full max-w-screen-xl mx-auto md:px-16 px-4 flex flex-col md:flex-row items-center">
             <div class="md:w-1/2 md:mb-0 mb-8">
                 <h2 class="text-4xl md:text-5xl font-bold mb-4">Encontre o técnico perfeito para seu problema</h2>
