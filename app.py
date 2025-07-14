@@ -4,7 +4,7 @@ import os
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'chave_teste'
+app.secret_key = os.environ.get('SECRET_KEY', 'chave_teste_desenvolvimento')
 DB_NAME = 'database.db'
 
 # Inicializar banco de dados
