@@ -8,7 +8,7 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="font-sans bg-stone-50 flex items-center justify-center min-h-screen">
-        <!-- Header/Navbar -->
+    <!-- Header/Navbar -->
     <header class="header-bg text-white shadow-xl">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
@@ -17,7 +17,7 @@
                     <a href="#home" class="text-2xl font-bold">TechBay</a>
                 </div>
                 <nav class="hidden md:flex space-x-8">
-                    <a href="#home" class="hover:text-stone-300 font-medium">Início</a>
+                    <a href="{{ url_for('index') }}" class="hover:text-stone-300 font-medium">Início</a>
                     <a href="#services" class="hover:text-stone-300 font-medium">Serviços</a>
                     <a href="#technicians" class="hover:text-stone-300 font-medium">Técnicos</a>
                     <a href="#stores" class="hover:text-stone-300 font-medium">Lojas</a>
@@ -97,45 +97,7 @@
             </nav>
         </div>
     </div>
-
-    <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.querySelector('.md\\:hidden.text-2xl');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const closeMobileMenu = document.getElementById('closeMobileMenu');
-            
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.remove('hidden');
-            });
-            
-            closeMobileMenu.addEventListener('click', function() {
-                mobileMenu.classList.add('hidden');
-            });
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                        
-                        // Close mobile menu if open
-                        if (!mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+    {% include 'mobile_menu.html' %}
     </body>
     </html>
     
