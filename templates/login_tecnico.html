@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login de Técnico - TechBay</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-stone-50 flex items-center justify-center min-h-screen">
+    <header class="header-bg text-white shadow-xl fixed w-full top-0 z-10">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-laptop-code text-3xl"></i>
+                    <a href="{{ url_for('index') }}" class="text-2xl font-bold">TechBay</a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="{{ url_for('index') }}" class="hover:text-stone-300 font-medium">Início</a>
+                    <a href="{{ url_for('index') }}#services" class="hover:text-stone-300 font-medium">Serviços</a>
+                    <a href="{{ url_for('index') }}#technicians" class="hover:text-stone-300 font-medium">Técnicos</a>
+                    <a href="{{ url_for('index') }}#stores" class="hover:text-stone-300 font-medium">Lojas</a>
+                    <a href="{{ url_for('index') }}#about" class="hover:text-stone-300 font-medium">Sobre</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    {% if session.logged_in %}
+                        <span class="text-white font-medium">Olá, {{ session.username }}!</span>
+                        <a href="{{ url_for('logout') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Sair</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Login</a>
+                        <a href="{{ url_for('register') }}" class="hidden md:block bg-stone-900 bg-opacity-50 text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-75 transition">Cadastre-se</a>
+                    {% endif %}
+                    <button class="md:hidden text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="mx-4 w-full max-w-md mt-20">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-6 text-stone-800">Login de Técnico</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mb-4">
+                        {% for category, message in messages %}
+                            <div class="p-3 rounded-md {% if category == 'success' %}bg-green-100 text-green-800{% elif category == 'danger' %}bg-red-100 text-red-800{% elif category == 'info' %}bg-blue-100 text-blue-800{% elif category == 'warning' %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('login_tecnico') }}" method="POST">
+                <div class="mb-4">
+                    <label for="email" class="block text-stone-700 text-sm font-bold mb-2">E-mail do Técnico:</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-stone-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-stone-700 text-sm font-bold mb-2">Senha:</label>
+                    <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-stone-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="gradient-bg opacity-85 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-100 transition">
+                        Entrar como Técnico
+                    </button>
+                    <a href="{{ url_for('register_tecnico') }}" class="inline-block align-baseline text-right font-bold text-sm text-stone-600 hover:text-stone-800">
+                        Não tem uma conta de técnico? Cadastre-se
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+    {% include 'mobile_menu.html' %}
+</body>
+</html>

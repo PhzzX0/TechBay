@@ -29,11 +29,38 @@ def init_db():
                     password TEXT NOT NULL
                 )
             ''')
+            # NOVA TABELA: tecnicos
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS tecnicos (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nome TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    especialidade TEXT,
+                    localizacao TEXT,
+                    preco_hora REAL,
+                    foto_perfil TEXT,
+                    status TEXT DEFAULT 'Offline' -- Online/Offline
+                )
+            ''')
             conn.commit()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    tecnicos_destaque = []
+    lojas_parceiras = []
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            conn.row_factory = sqlite3.Row # Importante para acessar colunas por nome
+            c = conn.cursor()
+            c.execute("SELECT * FROM tecnicos LIMIT 3") # Busca os 3 primeiros técnicos
+            tecnicos_destaque = c.fetchall()
+            c.execute("SELECT * FROM lojas LIMIT 3") # Busca as 3 primeiras lojas
+            lojas_parceiras = c.fetchall()
+    except Exception as e:
+        print(f"Erro ao buscar dados para index: {e}")
+
+    return render_template('index.html', tecnicos=tecnicos_destaque, lojas=lojas_parceiras)
 
 # Rota de Registro de Usuário (existente)
 @app.route('/register', methods=['GET', 'POST'])
@@ -126,6 +153,56 @@ def login_loja():
             flash('E-mail ou senha da loja inválidos.', 'danger')
     return render_template('login_loja.html') # Você precisará criar este template
 
+# NOVA ROTA: Registro de Técnico
+@app.route('/register_tecnico', methods=['GET', 'POST'])
+def register_tecnico():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        email = request.form['email']
+        password = request.form['password']
+        especialidade = request.form.get('especialidade')
+        localizacao = request.form.get('localizacao')
+        preco_hora = request.form.get('preco_hora')
+        hashed_password = generate_password_hash(password)
+
+        try:
+            with sqlite3.connect(DB_NAME) as conn:
+                c = conn.cursor()
+                c.execute("INSERT INTO tecnicos (nome, email, password, especialidade, localizacao, preco_hora) VALUES (?, ?, ?, ?, ?, ?)",
+                          (nome, email, hashed_password, especialidade, localizacao, preco_hora))
+                conn.commit()
+            flash('Registro de técnico bem-sucedido! Faça login agora.', 'success')
+            return redirect(url_for('login_tecnico')) # Redireciona para o login de técnico
+        except sqlite3.IntegrityError:
+            flash('E-mail de técnico já existe. Por favor, escolha outro.', 'danger')
+        except Exception as e:
+            flash(f'Ocorreu um erro: {e}', 'danger')
+    return render_template('register_tecnico.html') # Você precisará criar este template
+
+# NOVA ROTA: Login de Técnico
+@app.route('/login_tecnico', methods=['GET', 'POST'])
+def login_tecnico():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        with sqlite3.connect(DB_NAME) as conn:
+            c = conn.cursor()
+            c.execute("SELECT * FROM tecnicos WHERE email = ?", (email,))
+            tecnico = c.fetchone()
+
+        if tecnico and check_password_hash(tecnico[3], password): # tecnico[3] é a coluna da senha
+            session['logged_in'] = True
+            session['username'] = tecnico[1] # Armazena o nome do técnico como username
+            session['user_type'] = 'tecnico' # Adiciona o tipo de usuário à sessão
+            session['tecnico_id'] = tecnico[0] # Armazena o ID do técnico
+            flash(f'Login do técnico "{tecnico[1]}" bem-sucedido!', 'success')
+            return redirect(url_for('index')) # Redireciona para a página inicial ou um dashboard do técnico
+        else:
+            flash('E-mail ou senha de técnico inválidos.', 'danger')
+    return render_template('login_tecnico.html') # Você precisará criar este template
+
+
 # Rota de Logout (Atualizada para lidar com ambos os tipos de usuário)
 @app.route('/logout')
 def logout():
@@ -133,6 +210,7 @@ def logout():
     session.pop('username', None)
     session.pop('user_type', None) # Remove o tipo de usuário
     session.pop('loja_id', None) # Remove o ID da loja
+    session.pop('tecnico_id', None) # Remove o ID do técnico
     flash('Você foi desconectado.', 'info')
     return redirect(url_for('index'))
 

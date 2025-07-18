@@ -22,6 +22,9 @@
                         <hr class="border-stone-200 my-4">
                         <a href="{{ url_for('login_loja') }}" class="w-full bg-red-700 text-white px-4 py-3 rounded-lg font-medium hover:bg-red-600 transition text-center">Login (Loja)</a>
                         <a href="{{ url_for('register_loja') }}" class="w-full border border-red-700 text-red-700 px-4 py-3 rounded-lg font-medium hover:bg-red-100 transition text-center">Cadastre-se (Loja)</a>
+                        <hr class="border-stone-200 my-4">
+                        <a href="{{ url_for('login_tecnico') }}" class="w-full bg-blue-700 text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-600 transition text-center">Login (Técnico)</a>
+                        <a href="{{ url_for('register_tecnico') }}" class="w-full border border-blue-700 text-blue-700 px-4 py-3 rounded-lg font-medium hover:bg-blue-100 transition text-center">Cadastre-se (Técnico)</a>
                     {% endif %}
                 </div>
             </nav>
@@ -62,4 +65,3 @@
             });
         });
     </script>
-    
