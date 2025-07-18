@@ -9,11 +9,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="font-sans bg-stone-50 flex flex-col min-h-screen"> {# Adicionado flex-col min-h-screen #}
-    {% include 'header.html' %} {# Inclui o header modularizado #}
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen">
+    {% include 'header.html' %}
     {% include 'mobile_menu.html' %}
 
-    <main class="flex-grow pt-24 pb-16"> {# Ajustado padding-top para não sobrepor o header fixo #}
+    <main class="flex-grow pt-24 pb-16">
         <div class="container mx-auto px-4">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -117,7 +117,7 @@
                                             {% endif %}
                                         {% endfor %}
                                     </span>
-                                    <span class="ml-2 text-stone-600 text-sm">{{ avaliacao.data_avaliacao.split(' ')[0] }}</span> {# Exibe apenas a data #}
+                                    <span class="ml-2 text-stone-600 text-sm">{{ avaliacao.data_avaliacao.split(' ')[0] }}</span>
                                 </div>
                                 <p class="text-stone-700">{{ avaliacao.comentario if avaliacao.comentario else 'Nenhum comentário.' }}</p>
                             </div>
@@ -130,6 +130,6 @@
         </div>
     </main>
 
-    {% include 'footer.html' %} {# Inclui o footer modularizado #}
+    {% include 'footer.html' %}
 </body>
 </html>

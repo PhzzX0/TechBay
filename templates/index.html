@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="font-sans bg-stone-50 flex flex-col min-h-screen"> {# Adicionado flex-col min-h-screen #}
-    {% include 'header.html' %} {# Inclui o header modularizado #}
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen">
+    {% include 'header.html' %}
 
     <!-- Início -->
     <section id="home" class="gradient-bg text-white md:py-24 py-16 pt-40">
@@ -31,10 +31,10 @@
                 <h2 class="text-4xl md:text-5xl font-bold mb-4">Encontre o técnico perfeito para seu problema</h2>
                 <p class="text-xl mb-8 text-red-200">Conectamos você com técnicos de informática e lojas de eletrônicos qualificados na sua região.</p>
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="{{ url_for('tecnicos_list') }}" class="bg-white text-stone-800 px-6 py-3 rounded-lg font-bold hover:bg-stone-300 transition animate-pulse text-center"> {# Atualizado #}
+                    <a href="{{ url_for('tecnicos_list') }}" class="bg-white text-stone-800 px-6 py-3 rounded-lg font-bold hover:bg-stone-300 transition animate-pulse text-center">
                         <i class="fas fa-search mr-2"></i> Buscar Técnicos
                     </a>
-                    <a href="{{ url_for('lojas_list') }}" class="bg-stone-900 bg-opacity-50 text-white px-6 py-3 rounded-lg font-bold hover:bg-opacity-75 transition text-center"> {# Atualizado #}
+                    <a href="{{ url_for('lojas_list') }}" class="bg-stone-900 bg-opacity-50 text-white px-6 py-3 rounded-lg font-bold hover:bg-opacity-75 transition text-center">
                         <i class="fas fa-store mr-2"></i> Encontrar Lojas
                     </a>
                 </div>
@@ -201,8 +201,8 @@
             </div>
 
             </div>
-            <div class="absolute -bottom-16 md:bottom-auto md:relative w-full flex justify-center mt-14 z-20">
-                <a href="{{ url_for('tecnicos_list') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition"> {# Atualizado #}
+            <div>
+                <a href="{{ url_for('tecnicos_list') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition">
                     Ver Todos os Técnicos <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -260,8 +260,8 @@
                 <p class="col-span-full text-center text-stone-600">Nenhuma loja parceira em destaque no momento.</p>
                 {% endfor %}
             </div>
-            <div class="absolute -bottom-16 md:bottom-auto md:relative w-full flex justify-center mt-14 z-20">
-                <a href="{{ url_for('lojas_list') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition"> {# Atualizado #}
+            <div>
+                <a href="{{ url_for('lojas_list') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition">
                     Ver Todas as Lojas <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -277,11 +277,10 @@
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
                         <i class="fas fa-map-marked-alt text-5xl text-stone-800 mb-4"></i>
-                        <p class="text-stone-700">Mapa interativo mostrando técnicos e lojas próximas (Em breve!)</p> {# Texto atualizado #}
+                        <p class="text-stone-700">Mapa interativo mostrando técnicos e lojas próximas (Em breve!)</p>
                     </div>
                 </div>
             </div>
-            {# Removido o formulário de filtros e resultados da busca #}
         </div>
     </section>
 
@@ -354,18 +353,18 @@
     <section class="py-16 gradient-bg text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para resolver seus problemas tecnológicos?</h2>
-            <p class="text-xl mb-8 max-w-2xl mx-auto text-indigo-100">Cadastre-se agora e encontre os melhores técnicos e lojas de eletrônicos da sua região.</p>
+            <p class="text-xl mb-8 max-w-2xl mx-auto text-red-100">Cadastre-se agora e encontre os melhores técnicos e lojas de eletrônicos da sua região.</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <a href="{{ url_for('register') }}" class="bg-white text-stone-800 px-8 py-4 rounded-lg font-bold hover:bg-stone-300 transition text-lg text-center">
                     <i class="fas fa-user-plus mr-2"></i> Criar Conta
                 </a>
-                <a href="{{ url_for('tecnicos_list') }}" class="bg-stone-900 bg-opacity-50 text-white px-8 py-4 rounded-lg font-bold hover:bg-opacity-75 transition text-lg text-center"> {# Atualizado #}
+                <a href="{{ url_for('tecnicos_list') }}" class="bg-stone-900 bg-opacity-50 text-white px-8 py-4 rounded-lg font-bold hover:bg-opacity-75 transition text-lg text-center">
                     <i class="fas fa-search mr-2"></i> Buscar Serviços
                 </a>
             </div>
         </div>
     </section>
-    {% include 'footer.html' %} {# Inclui o footer modularizado #}
+    {% include 'footer.html' %}
     {% include 'mobile_menu.html' %}
 </body>
 </html>
