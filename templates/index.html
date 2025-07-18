@@ -4,45 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechBay</title>
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="font-sans bg-stone-50">
-    <!-- Header/Navbar -->
-    <header class="header-bg text-white shadow-xl">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-laptop-code text-3xl"></i>
-                    <a href="#home" class="text-2xl font-bold">TechBay</a>
-                </div>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#home" class="hover:text-stone-300 font-medium">Início</a>
-                    <a href="#services" class="hover:text-stone-300 font-medium">Serviços</a>
-                    <a href="#technicians" class="hover:text-stone-300 font-medium">Técnicos</a>
-                    <a href="#stores" class="hover:text-stone-300 font-medium">Lojas</a>
-                    <a href="#about" class="hover:text-stone-300 font-medium">Sobre</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    {% if session.logged_in %}
-                        <span class="text-white font-medium">Olá, {{ session.username }}!</span>
-                        <a href="{{ url_for('logout') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Sair</a>
-                    {% else %}
-                        <a href="{{ url_for('login') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Login (Usuário)</a>
-                        <a href="{{ url_for('register') }}" class="hidden md:block bg-stone-900 bg-opacity-50 text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-75 transition">Cadastre-se (Usuário)</a>
-                        <a href="{{ url_for('login_loja') }}" class="bg-red-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition hidden md:block">Login (Loja)</a>
-                        <a href="{{ url_for('register_loja') }}" class="bg-red-900 bg-opacity-50 text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-75 transition hidden md:block">Cadastre-se (Loja)</a>
-                    {% endif %}
-                    <button class="md:hidden text-2xl">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen"> {# Adicionado flex-col min-h-screen #}
+    {% include 'header.html' %} {# Inclui o header modularizado #}
 
     <!-- Início -->
     <section id="home" class="gradient-bg text-white md:py-24 py-16 pt-40">
@@ -62,12 +31,12 @@
                 <h2 class="text-4xl md:text-5xl font-bold mb-4">Encontre o técnico perfeito para seu problema</h2>
                 <p class="text-xl mb-8 text-red-200">Conectamos você com técnicos de informática e lojas de eletrônicos qualificados na sua região.</p>
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <button class="bg-white text-stone-800 px-6 py-3 rounded-lg font-bold hover:bg-stone-300 transition animate-pulse">
+                    <a href="{{ url_for('tecnicos_list') }}" class="bg-white text-stone-800 px-6 py-3 rounded-lg font-bold hover:bg-stone-300 transition animate-pulse text-center"> {# Atualizado #}
                         <i class="fas fa-search mr-2"></i> Buscar Técnicos
-                    </button>
-                    <button class="bg-stone-900 bg-opacity-50 text-white px-6 py-3 rounded-lg font-bold hover:bg-opacity-75 transition">
+                    </a>
+                    <a href="{{ url_for('lojas_list') }}" class="bg-stone-900 bg-opacity-50 text-white px-6 py-3 rounded-lg font-bold hover:bg-opacity-75 transition text-center"> {# Atualizado #}
                         <i class="fas fa-store mr-2"></i> Encontrar Lojas
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="md:w-1/2 flex justify-center">
@@ -127,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Serviço 2 -->
                 <div class="service-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
                     <div class="p-6">
@@ -144,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Serviço 3 -->
                 <div class="service-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
                     <div class="p-6">
@@ -161,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Serviço 4 -->
                 <div class="service-card bg-white rounded-xl shadow-md overflow-hidden transition duration-300">
                     <div class="p-6">
@@ -179,11 +148,6 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-14">
-                <button class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition">
-                    Ver Todos os Serviços <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
         </div>
     </section>
 
@@ -195,8 +159,7 @@
                 {% for tecnico in tecnicos %}
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-stone-100 hover:shadow-xl transition">
                     <div class="relative">
-                        <!-- Use uma imagem padrão ou um campo de foto_perfil se você adicionar um -->
-                        <img src="{{ tecnico.foto_perfil if tecnico.foto_perfil else 'https://randomuser.me/api/portraits/men/32.jpg' }}" alt="Técnico" class="w-full h-48 object-cover">
+                        <img src="{{ tecnico.foto_perfil if tecnico.foto_perfil else 'https://via.placeholder.com/400x200?text=T%C3%A9cnico' }}" alt="Técnico" class="w-full h-48 object-cover">
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
                         <div class="absolute bottom-4 left-4">
                             <span class="bg-stone-800 text-white px-3 py-1 rounded-full text-sm font-medium">{{ tecnico.status if tecnico.status else 'Offline' }}</span>
@@ -209,7 +172,7 @@
                                 <p class="text-stone-600">{{ tecnico.especialidade if tecnico.especialidade else 'Especialidade não informada' }}</p>
                             </div>
                             <div class="flex items-center">
-                                <!-- Avaliações estáticas por enquanto, até implementar o sistema de avaliação -->
+                                {# Avaliações estáticas por enquanto, até implementar o sistema de avaliação #}
                                 <span class="rating-stars">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -226,9 +189,9 @@
                         </div>
                         <div class="mt-4 pt-4 border-t border-stone-100 flex justify-between items-center">
                             <span class="font-bold text-stone-800">R$ {{ "%.2f"|format(tecnico.preco_hora) if tecnico.preco_hora else 'N/A' }}/hora</span>
-                            <button class="bg-stone-800 text-white px-4 py-2 rounded-lg hover:bg-stone-700 transition">
-                                Contatar
-                            </button>
+                            <a href="{{ url_for('profile_tecnico', tecnico_id=tecnico.id) }}" class="bg-stone-800 text-white px-4 py-2 rounded-lg hover:bg-stone-700 transition">
+                                Ver Perfil
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -238,10 +201,10 @@
             </div>
 
             </div>
-            <div class="absolute -mt-28 md:mt-14 left-1/2 transform -translate-x-1/2 md:relative md:text-center z-20">
-                <button class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition">
+            <div class="absolute -bottom-16 md:bottom-auto md:relative w-full flex justify-center mt-14 z-20">
+                <a href="{{ url_for('tecnicos_list') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition"> {# Atualizado #}
                     Ver Todos os Técnicos <i class="fa-solid fa-arrow-right"></i>
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -254,8 +217,7 @@
                 {% for loja in lojas %}
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
                     <div class="relative h-48">
-                        <!-- Use uma imagem padrão ou um campo de foto_perfil se você adicionar um -->
-                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Loja" class="w-full h-full object-cover">
+                        <img src="{{ loja.foto_perfil if loja.foto_perfil else 'https://via.placeholder.com/400x200?text=Loja' }}" alt="Loja" class="w-full h-full object-cover">
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
                         <div class="absolute top-4 right-4">
                             <button class="bg-white p-2 rounded-full shadow-md hover:bg-stone-100">
@@ -267,7 +229,7 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-xl font-bold">{{ loja.nome_loja }}</h3>
                             <div class="flex items-center">
-                                <!-- Avaliações estáticas por enquanto -->
+                                {# Avaliações estáticas por enquanto #}
                                 <span class="rating-stars">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -278,7 +240,7 @@
                                 <span class="ml-1 text-stone-700">4.0</span>
                             </div>
                         </div>
-                        <p class="text-stone-600 mb-4">Loja de eletrônicos e informática.</p> {# Pode ser um campo de descrição da loja #}
+                        <p class="text-stone-600 mb-4">{{ loja.descricao if loja.descricao else 'Loja de eletrônicos e informática.' }}</p>
                         <div class="flex items-center text-stone-600 mb-4">
                             <i class="fas fa-map-marker-alt mr-2"></i>
                             <span>{{ loja.endereco if loja.endereco else 'Endereço não informado' }}</span>
@@ -288,9 +250,9 @@
                             <span>Horário de funcionamento (a ser implementado)</span>
                         </div>
                         <div class="pt-4 border-t border-stone-100">
-                            <button class="w-full bg-stone-800 text-white py-2 rounded-lg hover:bg-stone-700 transition">
+                            <a href="{{ url_for('profile_loja', loja_id=loja.id) }}" class="w-full bg-stone-800 text-white py-2 rounded-lg hover:bg-stone-700 transition text-center">
                                 Ver Loja
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -298,10 +260,10 @@
                 <p class="col-span-full text-center text-stone-600">Nenhuma loja parceira em destaque no momento.</p>
                 {% endfor %}
             </div>
-            <div class="absolute -mt-28 md:mt-14 left-1/2 transform -translate-x-1/2 md:relative md:text-center z-20">
-                <button class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition">
+            <div class="absolute -bottom-16 md:bottom-auto md:relative w-full flex justify-center mt-14 z-20">
+                <a href="{{ url_for('lojas_list') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition"> {# Atualizado #}
                     Ver Todas as Lojas <i class="fa-solid fa-arrow-right"></i>
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -315,111 +277,11 @@
                 <div class="absolute inset-0 flex items-center justify-center">
                     <div class="text-center">
                         <i class="fas fa-map-marked-alt text-5xl text-stone-800 mb-4"></i>
-                        <p class="text-stone-700">Mapa interativo mostrando técnicos e lojas próximas</p>
+                        <p class="text-stone-700">Mapa interativo mostrando técnicos e lojas próximas (Em breve!)</p> {# Texto atualizado #}
                     </div>
                 </div>
             </div>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-stone-200 p-6 rounded-lg">
-                    <h3 class="text-xl font-semibold mb-3 text-stone-800">Filtros</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-stone-700 mb-2">Tipo</label>
-                            <select class="w-full p-2 border border-stone-300 rounded-lg">
-                                <option>Todos</option>
-                                <option>Técnicos</option>
-                                <option>Lojas</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-stone-700 mb-2">Serviço</label>
-                            <select class="w-full p-2 border border-stone-300 rounded-lg">
-                                <option>Todos os serviços</option>
-                                <option>Reparo de Computadores</option>
-                                <option>Remoção de Vírus</option>
-                                <option>Rede e Internet</option>
-                                <option>Reparo de Celulares</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-stone-700 mb-2">Distância</label>
-                            <select class="w-full p-2 border border-stone-300 rounded-lg">
-                                <option>5 km</option>
-                                <option>10 km</option>
-                                <option>15 km</option>
-                                <option>20 km</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:col-span-2">
-                    <h3 class="text-xl font-semibold mb-4 text-stone-800">Resultados</h3>
-                    <div class="space-y-4">
-                        <!-- Item Resultado 1 -->
-                        <div class="flex items-center p-4 bg-stone-50 rounded-lg hover:bg-stone-100 transition">
-                            <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Técnico" class="w-12 h-12 rounded-full object-cover mr-4">
-                            <div class="flex-grow">
-                                <h4 class="font-semibold">João Mendes</h4>
-                                <p class="text-sm text-stone-600">Especialista em Hardware • 1.2 km</p>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="rating-stars mr-2">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </span>
-                                <button class="bg-stone-800 text-white px-3 py-1 rounded-lg text-sm hover:bg-stone-700">
-                                    Ver Perfil
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Item Resultado 2 -->
-                        <div class="flex items-center p-4 bg-stone-50 rounded-lg hover:bg-stone-100 transition">
-                            <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Loja" class="w-12 h-12 rounded-lg object-cover mr-4">
-                            <div class="flex-grow">
-                                <h4 class="font-semibold">TechCenter</h4>
-                                <p class="text-sm text-stone-600">Loja de eletrônicos • 2.5 km</p>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="rating-stars mr-2">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </span>
-                                <button class="bg-stone-800 text-white px-3 py-1 rounded-lg text-sm hover:bg-stone-700">
-                                    Ver Loja
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Item Resultado 3 -->
-                        <div class="flex items-center p-4 bg-stone-50 rounded-lg hover:bg-stone-100 transition">
-                            <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Técnica" class="w-12 h-12 rounded-full object-cover mr-4">
-                            <div class="flex-grow">
-                                <h4 class="font-semibold">Maria Souza</h4>
-                                <p class="text-sm text-stone-600">Especialista em Software • 3.1 km</p>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="rating-stars mr-2">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </span>
-                                <button class="bg-stone-800 text-white px-3 py-1 rounded-lg text-sm hover:bg-stone-700">
-                                    Ver Perfil
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {# Removido o formulário de filtros e resultados da busca #}
         </div>
     </section>
 
@@ -446,7 +308,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Avaliação 2 -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="rating-stars mb-4">
@@ -465,7 +327,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Avaliação 3 -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="rating-stars mb-4">
@@ -494,88 +356,16 @@
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para resolver seus problemas tecnológicos?</h2>
             <p class="text-xl mb-8 max-w-2xl mx-auto text-indigo-100">Cadastre-se agora e encontre os melhores técnicos e lojas de eletrônicos da sua região.</p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <button class="bg-white text-stone-800 px-8 py-4 rounded-lg font-bold hover:bg-stone-300 transition text-lg">
+                <a href="{{ url_for('register') }}" class="bg-white text-stone-800 px-8 py-4 rounded-lg font-bold hover:bg-stone-300 transition text-lg text-center">
                     <i class="fas fa-user-plus mr-2"></i> Criar Conta
-                </button>
-                <button class="bg-stone-900 bg-opacity-50 text-white px-8 py-4 rounded-lg font-bold hover:bg-opacity-75 transition text-lg">
+                </a>
+                <a href="{{ url_for('tecnicos_list') }}" class="bg-stone-900 bg-opacity-50 text-white px-8 py-4 rounded-lg font-bold hover:bg-opacity-75 transition text-lg text-center"> {# Atualizado #}
                     <i class="fas fa-search mr-2"></i> Buscar Serviços
-                </button>
+                </a>
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-stone-900 text-white pt-16 pb-8 px-8">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <i class="fas fa-laptop-code text-3xl text-white"></i>
-                        <h3 class="text-2xl font-bold">TechBay</h3>
-                    </div>
-                    <p class="text-stone-400">Conectando você com os melhores técnicos e lojas de eletrônicos da sua região.</p>
-                    <div class="flex space-x-4 mt-6">
-                        <a href="#" class="text-stone-400 hover:text-white transition">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="text-stone-400 hover:text-white transition">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-stone-400 hover:text-white transition">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="text-stone-400 hover:text-white transition">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Links Rápidos</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Início</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Serviços</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Técnicos</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Lojas</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Sobre Nós</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Serviços</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Reparo de Computadores</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Remoção de Vírus</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Configuração de Rede</a></li>
-                        <li><a href="#" class="text-stone-400 hover:text-white transition">Reparo de Celulares</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contato</h4>
-                    <ul class="space-y-2">
-                        <li class="flex items-center text-stone-400">
-                            <i class="fas fa-map-marker-alt mr-3"></i>
-                            <span>Rua dos Bestas - Apodi/RN</span>
-                        </li>
-                        <li class="flex items-center text-stone-400">
-                            <i class="fas fa-phone-alt mr-3"></i>
-                            <span>(84) 1234-5678</span>
-                        </li>
-                        <li class="flex items-center text-stone-400">
-                            <i class="fas fa-envelope mr-3"></i>
-                            <span>contato@TechBay.com.br</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-stone-400 mb-4 md:mb-0">© 2025 TechBay. Todos os direitos reservados.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-stone-400 hover:text-white transition">Termos de Serviço</a>
-                    <a href="#" class="text-stone-400 hover:text-white transition">Política de Privacidade</a>
-                    <a href="#" class="text-stone-400 hover:text-white transition">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'footer.html' %} {# Inclui o footer modularizado #}
     {% include 'mobile_menu.html' %}
 </body>
 </html>

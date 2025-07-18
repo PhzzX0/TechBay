@@ -1,46 +1,17 @@
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login - TechBay</title>
-        <link rel="stylesheet" href="/static/style.css">
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="font-sans bg-stone-50 flex items-center justify-center min-h-screen">
-    <!-- Header/Navbar -->
-    <header class="header-bg text-white shadow-xl">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-laptop-code text-3xl"></i>
-                    <a href="#home" class="text-2xl font-bold">TechBay</a>
-                </div>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="{{ url_for('index') }}" class="hover:text-stone-300 font-medium">Início</a>
-                    <a href="#services" class="hover:text-stone-300 font-medium">Serviços</a>
-                    <a href="#technicians" class="hover:text-stone-300 font-medium">Técnicos</a>
-                    <a href="#stores" class="hover:text-stone-300 font-medium">Lojas</a>
-                    <a href="#about" class="hover:text-stone-300 font-medium">Sobre</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    {% if session.logged_in %}
-                        <span class="text-white font-medium">Olá, {{ session.username }}!</span>
-                        <a href="{{ url_for('logout') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Sair</a>
-                    {% else %}
-                        <a href="{{ url_for('login') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Login</a>
-                        <a href="{{ url_for('register') }}" class="hidden md:block bg-stone-900 bg-opacity-50 text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-75 transition">Cadastre-se</a>
-                    {% endif %}
-                    <button class="md:hidden text-2xl">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-    <section class="mx-4 w-full max-w-md">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TechBay</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen"> {# Adicionado flex-col min-h-screen #}
+    {% include 'header.html' %} {# Inclui o header modularizado #}
+    <section class="flex-grow flex items-center justify-center mx-4 w-full mt-20 mb-16"> {# Ajustado para flex-grow e centralizar #}
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"> {# Adicionado w-full #}
             <h2 class="text-3xl font-bold text-center mb-6 text-stone-800">Login</h2>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -75,29 +46,7 @@
             </form>
         </div>
     </section>
-
-        <!-- Mobile Menu (hidden by default) -->
-    <div class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden" id="mobileMenu">
-        <div class="absolute top-0 right-0 bottom-0 w-3/4 bg-white p-6 overflow-y-auto">
-            <div class="flex justify-end mb-8">
-                <button id="closeMobileMenu" class="text-stone-600 hover:text-stone-900">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
-            </div>
-            <nav class="space-y-6">
-                <a href="#home" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Início</a>
-                <a href="#services" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Serviços</a>
-                <a href="#technicians" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Técnicos</a>
-                <a href="#stores" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Lojas</a>
-                <a href="#about" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Sobre</a>
-                <div class="pt-6 space-y-4">
-                    <button class="w-full bg-stone-800 text-white px-4 py-3 rounded-lg font-medium hover:bg-stone-700 transition">Login</button>
-                    <button class="w-full border border-stone-800 text-stone-800 px-4 py-3 rounded-lg font-medium hover:bg-stone-300 transition">Cadastre-se</button>
-                </div>
-            </nav>
-        </div>
-    </div>
     {% include 'mobile_menu.html' %}
-    </body>
-    </html>
-    
+    {% include 'footer.html' %} {# Inclui o footer modularizado #}
+</body>
+</html>

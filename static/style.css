@@ -1,14 +1,14 @@
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 main {
-  margin-top: 80px;
-  padding: 1rem;
+    margin-top: 80px; /* Ajustado para dar espaço ao header fixo */
+    padding: 1rem;
 }
 
 
@@ -43,4 +43,4 @@ main {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
-}
+}  

@@ -1,0 +1,72 @@
+<!-- Footer -->
+<footer class="bg-stone-900 text-white pt-16 pb-8 px-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-laptop-code text-3xl text-white"></i>
+                    <h3 class="text-2xl font-bold">TechBay</h3>
+                </div>
+                <p class="text-stone-400">Conectando você com os melhores técnicos e lojas de eletrônicos da sua região.</p>
+                <div class="flex space-x-4 mt-6">
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Links Rápidos</h4>
+                <ul class="space-y-2">
+                    <li><a href="{{ url_for('index') }}#home" class="text-stone-400 hover:text-white transition">Início</a></li>
+                    <li><a href="{{ url_for('index') }}#services" class="text-stone-400 hover:text-white transition">Serviços</a></li>
+                    <li><a href="{{ url_for('tecnicos_list') }}" class="text-stone-400 hover:text-white transition">Técnicos</a></li> {# Atualizado #}
+                    <li><a href="{{ url_for('lojas_list') }}" class="text-stone-400 hover:text-white transition">Lojas</a></li> {# Atualizado #}
+                    <li><a href="{{ url_for('index') }}#about" class="text-stone-400 hover:text-white transition">Sobre Nós</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Serviços</h4>
+                <ul class="space-y-2">
+                    <li><a href="{{ url_for('tecnicos_list', service='Reparo de Computadores') }}" class="text-stone-400 hover:text-white transition">Reparo de Computadores</a></li> {# Atualizado #}
+                    <li><a href="{{ url_for('tecnicos_list', service='Remoção de Vírus') }}" class="text-stone-400 hover:text-white transition">Remoção de Vírus</a></li> {# Atualizado #}
+                    <li><a href="{{ url_for('tecnicos_list', service='Rede e Internet') }}" class="text-stone-400 hover:text-white transition">Configuração de Rede</a></li> {# Atualizado #}
+                    <li><a href="{{ url_for('tecnicos_list', service='Reparo de Celulares') }}" class="text-stone-400 hover:text-white transition">Reparo de Celulares</a></li> {# Atualizado #}
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Contato</h4>
+                <ul class="space-y-2">
+                    <li class="flex items-center text-stone-400">
+                        <i class="fas fa-map-marker-alt mr-3"></i>
+                        <span>Rua dos Bestas - Apodi/RN</span>
+                    </li>
+                    <li class="flex items-center text-stone-400">
+                        <i class="fas fa-phone-alt mr-3"></i>
+                        <span>(84) 1234-5678</span>
+                    </li>
+                    <li class="flex items-center text-stone-400">
+                        <i class="fas fa-envelope mr-3"></i>
+                        <span>contato@TechBay.com.br</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-stone-400 mb-4 md:mb-0">© 2025 TechBay. Todos os direitos reservados.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-stone-400 hover:text-white transition">Termos de Serviço</a>
+                <a href="#" class="text-stone-400 hover:text-white transition">Política de Privacidade</a>
+                <a href="#" class="text-stone-400 hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+    </div>
+</footer>

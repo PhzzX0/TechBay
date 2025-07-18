@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todas as Lojas - TechBay</title>
+    <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen">
+    {% include 'header.html' %} {# Inclui o header modularizado #}
+    {% include 'mobile_menu.html' %}
+
+    <main class="flex-grow pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold text-stone-800 mb-8 text-center">Todas as Lojas</h1>
+
+            {% if lojas %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for loja in lojas %}
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                            <div class="relative h-48">
+                                <img src="{{ loja.foto_perfil if loja.foto_perfil else 'https://via.placeholder.com/400x200?text=Loja' }}" alt="{{ loja.nome_loja }}" class="w-full h-full object-cover">
+                                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold">{{ loja.nome_loja }}</h3>
+                                    <div class="flex items-center">
+                                        {# Avaliações estáticas por enquanto #}
+                                        <span class="rating-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </span>
+                                        <span class="ml-1 text-stone-700">4.0</span>
+                                    </div>
+                                </div>
+                                <p class="text-stone-600 mb-4">{{ loja.descricao if loja.descricao else 'Loja de eletrônicos e informática.' }}</p>
+                                <div class="flex items-center text-stone-600 mb-4">
+                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                    <span>{{ loja.endereco if loja.endereco else 'Endereço não informado' }}</span>
+                                </div>
+                                <div class="flex items-center text-stone-600 mb-4">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    <span>Horário de funcionamento (a ser implementado)</span>
+                                </div>
+                                <div class="pt-4 border-t border-stone-100">
+                                    <a href="{{ url_for('profile_loja', loja_id=loja.id) }}" class="w-full bg-stone-800 text-white py-2 rounded-lg hover:bg-stone-700 transition text-center">
+                                        Ver Loja
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-stone-600 text-center text-lg">Nenhuma loja cadastrada ainda.</p>
+            {% endif %}
+        </div>
+    </main>
+
+    {% include 'footer.html' %} {# Inclui o footer modularizado #}
+</body>
+</html>

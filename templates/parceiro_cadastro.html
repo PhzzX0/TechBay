@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seja Nosso Parceiro - TechBay</title>
+    <link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen">
+    {% include 'header.html' %} {# Inclui o header modularizado #}
+    {% include 'mobile_menu.html' %}
+
+    <main class="flex-grow flex items-center justify-center pt-24 pb-16">
+        <div class="container mx-auto px-4 max-w-2xl">
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+                <h2 class="text-3xl font-bold text-stone-800 mb-8">Seja Nosso Parceiro</h2>
+                <p class="text-stone-700 mb-8">Escolha o tipo de conta que você deseja criar para se juntar à nossa plataforma:</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-stone-50 p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                        <i class="fas fa-store text-5xl text-red-700 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-stone-800 mb-4">Sou uma Loja</h3>
+                        <p class="text-stone-600 mb-6">Cadastre sua loja para oferecer seus produtos e serviços a milhares de clientes.</p>
+                        <a href="{{ url_for('register_loja') }}" class="bg-red-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-600 transition">
+                            Cadastrar Loja
+                        </a>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                        <i class="fas fa-user-cog text-5xl text-blue-700 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-stone-800 mb-4">Sou um Técnico</h3>
+                        <p class="text-stone-600 mb-6">Crie seu perfil de técnico e conecte-se com clientes que precisam de suas habilidades.</p>
+                        <a href="{{ url_for('register_tecnico') }}" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-600 transition">
+                            Cadastrar Técnico
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %} {# Inclui o footer modularizado #}
+</body>
+</html>
