@@ -24,9 +24,6 @@
                             <div class="relative">
                                 <img src="{{ tecnico.foto_perfil if tecnico.foto_perfil else 'https://via.placeholder.com/400x200?text=T%C3%A9cnico' }}" alt="{{ tecnico.nome }}" class="w-full h-48 object-cover">
                                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
-                                <div class="absolute bottom-4 left-4">
-                                    <span class="bg-stone-800 text-white px-3 py-1 rounded-full text-sm font-medium">{{ tecnico.status if tecnico.status else 'Offline' }}</span>
-                                </div>
                             </div>
                             <div class="p-6">
                                 <div class="flex justify-between items-start">
@@ -35,15 +32,19 @@
                                         <p class="text-stone-600">{{ tecnico.especialidade if tecnico.especialidade else 'Especialidade não informada' }}</p>
                                     </div>
                                     <div class="flex items-center">
-                                        {# Avaliações estáticas por enquanto #}
                                         <span class="rating-stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
+                                            {% set media_nota = tecnico.media_nota if tecnico.media_nota is not none else 0 %}
+                                            {% for i in range(5) %}
+                                                {% if i < media_nota|round(0, 'floor') %}
+                                                    <i class="fas fa-star"></i>
+                                                {% elif i < media_nota %}
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
                                         </span>
-                                        <span class="ml-1 text-stone-700">4.0</span>
+                                        <span class="ml-1 text-stone-700">{{ "%.1f"|format(media_nota) }}</span>
                                     </div>
                                 </div>
                                 <div class="mt-4 flex items-center text-stone-600">

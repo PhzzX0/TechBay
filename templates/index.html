@@ -186,15 +186,19 @@
                                 <p class="text-stone-600">{{ tecnico.especialidade if tecnico.especialidade else 'Especialidade não informada' }}</p>
                             </div>
                             <div class="flex items-center">
-                                {# Avaliações estáticas por enquanto, até implementar o sistema de avaliação #}
                                 <span class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
+                                    {% set media_nota = tecnico.media_nota if tecnico.media_nota is not none else 0 %}
+                                    {% for i in range(5) %}
+                                        {% if i < media_nota|round(0, 'floor') %}
+                                            <i class="fas fa-star"></i>
+                                        {% elif i < media_nota %}
+                                            <i class="fas fa-star-half-alt"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
                                 </span>
-                                <span class="ml-1 text-stone-700">4.0</span>
+                                <span class="ml-1 text-stone-700">{{ "%.1f"|format(media_nota) }}</span>
                             </div>
                         </div>
                         <div class="mt-4 flex items-center text-stone-600">
@@ -238,15 +242,19 @@
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-xl font-bold">{{ loja.nome_loja }}</h3>
                             <div class="flex items-center">
-                                {# Avaliações estáticas por enquanto #}
                                 <span class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
+                                    {% set media_nota = loja.media_nota if loja.media_nota is not none else 0 %}
+                                    {% for i in range(5) %}
+                                        {% if i < media_nota|round(0, 'floor') %}
+                                            <i class="fas fa-star"></i>
+                                        {% elif i < media_nota %}
+                                            <i class="fas fa-star-half-alt"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
                                 </span>
-                                <span class="ml-1 text-stone-700">4.0</span>
+                                <span class="ml-1 text-stone-700">{{ "%.1f"|format(media_nota) }}</span>
                             </div>
                         </div>
                         <p class="text-stone-600 mb-4">{{ loja.descricao if loja.descricao else 'Loja de eletrônicos e informática.' }}</p>
@@ -277,83 +285,35 @@
         </div>
     </section>
 
-    <!-- Mapa -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-stone-800">Encontre Técnicos e Lojas Próximas</h2>
-            <div class="map-container bg-stone-200 relative">
-                <!-- This would be replaced with an actual map API like Google Maps -->
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="text-center">
-                        <i class="fas fa-map-marked-alt text-5xl text-stone-800 mb-4"></i>
-                        <p class="text-stone-700">Mapa interativo mostrando técnicos e lojas próximas (Em breve!)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Avaliações -->
     <section class="py-16 bg-stone-200">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12 text-stone-800">O que nossos clientes dizem</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Avaliação 1 -->
+                {% for avaliacao in avaliacoes_clientes %}
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="rating-stars mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        {% for i in range(5) %}
+                            {% if i < avaliacao.nota %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <p class="text-stone-700 mb-6">"Encontrei um técnico excelente que resolveu meu problema de vírus em menos de uma hora. O serviço foi rápido e o preço justo."</p>
+                    <p class="text-stone-700 mb-6">"{{ avaliacao.comentario if avaliacao.comentario else 'Nenhum comentário.' }}"</p>
                     <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Cliente" class="w-12 h-12 rounded-full object-cover mr-4">
+                        {# Imagem de perfil genérica ou buscar do usuário se implementado #}
+                        <img src="https://randomuser.me/api/portraits/lego/{{ loop.index }}.jpg" alt="Cliente" class="w-12 h-12 rounded-full object-cover mr-4">
                         <div>
-                            <h4 class="font-semibold">Patrícia Almeida</h4>
-                            <p class="text-sm text-stone-600">Cliente desde 2025</p>
+                            <h4 class="font-semibold">{{ avaliacao.avaliador_username }}</h4>
+                            <p class="text-sm text-stone-600">Avaliou {{ avaliacao.avaliado_nome }}</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Avaliação 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="rating-stars mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="text-stone-700 mb-6">"A loja que encontrei pelo TechBay tinha exatamente a peça que precisava para meu computador e com um preço melhor que outras."</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Cliente" class="w-12 h-12 rounded-full object-cover mr-4">
-                        <div>
-                            <h4 class="font-semibold">Ricardo Ferreira</h4>
-                            <p class="text-sm text-stone-600">Cliente desde 2025</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Avaliação 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="rating-stars mb-4">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-stone-700 mb-6">"Como dono de uma pequena empresa, o TechBay me ajudou a encontrar um técnico confiável para resolver nossos problemas de rede."</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente" class="w-12 h-12 rounded-full object-cover mr-4">
-                        <div>
-                            <h4 class="font-semibold">Camila Rodrigues</h4>
-                            <p class="text-sm text-stone-600">Cliente desde 2025</p>
-                        </div>
-                    </div>
-                </div>
+                {% else %}
+                <p class="col-span-full text-center text-stone-600">Nenhuma avaliação disponível no momento.</p>
+                {% endfor %}
             </div>
         </div>
     </section>

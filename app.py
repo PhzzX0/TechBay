@@ -42,7 +42,9 @@ def init_db():
                 endereco TEXT,
                 telefone TEXT,
                 descricao TEXT,
-                foto_perfil TEXT
+                foto_perfil TEXT,
+                whatsapp TEXT, -- Nova coluna
+                instagram TEXT -- Nova coluna
             )
         ''')
         c.execute('''
@@ -55,17 +57,19 @@ def init_db():
                 localizacao TEXT,
                 preco_hora REAL,
                 foto_perfil TEXT,
-                status TEXT DEFAULT 'Offline', -- Online/Offline
-                descricao TEXT
+                status TEXT DEFAULT 'Offline',
+                descricao TEXT,
+                whatsapp TEXT, -- Nova coluna
+                instagram TEXT -- Nova coluna
             )
         ''')
         c.execute('''
             CREATE TABLE IF NOT EXISTS avaliacoes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 avaliador_id INTEGER NOT NULL,
-                avaliador_tipo TEXT NOT NULL, -- 'usuario'
+                avaliador_tipo TEXT NOT NULL,
                 avaliado_id INTEGER NOT NULL,
-                avaliado_tipo TEXT NOT NULL, -- 'tecnico' ou 'loja'
+                avaliado_tipo TEXT NOT NULL,
                 nota INTEGER NOT NULL CHECK(nota >= 1 AND nota <= 5),
                 comentario TEXT,
                 data_avaliacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -80,9 +84,11 @@ def index():
     db = get_db()
     tecnicos_destaque = []
     lojas_parceiras = []
+    avaliacoes_clientes = [] # Nova lista para avaliações de clientes
+
     try:
         c = db.cursor()
-        # Seleciona 3 técnicos com maior número de avaliações (exemplo simplificado)
+        # Seleciona 3 técnicos com maior média de avaliações
         c.execute("""
             SELECT t.*, AVG(a.nota) as media_nota
             FROM tecnicos t
@@ -93,7 +99,7 @@ def index():
         """)
         tecnicos_destaque = c.fetchall()
 
-        # Seleciona 3 lojas com maior número de avaliações (exemplo simplificado)
+        # Seleciona 3 lojas com maior média de avaliações
         c.execute("""
             SELECT l.*, AVG(a.nota) as media_nota
             FROM lojas l
@@ -103,10 +109,27 @@ def index():
             LIMIT 3
         """)
         lojas_parceiras = c.fetchall()
+
+        # Seleciona as 3 avaliações mais recentes (pode ser de técnico ou loja)
+        c.execute("""
+            SELECT a.*, u.username as avaliador_username,
+                    CASE
+                        WHEN a.avaliado_tipo = 'tecnico' THEN t.nome
+                        WHEN a.avaliado_tipo = 'loja' THEN l.nome_loja
+                    END as avaliado_nome
+            FROM avaliacoes a
+            JOIN usuarios u ON a.avaliador_id = u.id
+            LEFT JOIN tecnicos t ON a.avaliado_id = t.id AND a.avaliado_tipo = 'tecnico'
+            LEFT JOIN lojas l ON a.avaliado_id = l.id AND a.avaliado_tipo = 'loja'
+            ORDER BY a.data_avaliacao DESC
+            LIMIT 3
+        """)
+        avaliacoes_clientes = c.fetchall()
+
     except Exception as e:
         print(f"Erro ao buscar dados para index: {e}")
 
-    return render_template('index.html', tecnicos=tecnicos_destaque, lojas=lojas_parceiras)
+    return render_template('index.html', tecnicos=tecnicos_destaque, lojas=lojas_parceiras, avaliacoes_clientes=avaliacoes_clientes)
 
 # Rota de Registro de Usuário
 @app.route('/register', methods=['GET', 'POST'])
@@ -167,14 +190,16 @@ def register_loja():
         endereco = request.form.get('endereco')
         telefone = request.form.get('telefone')
         descricao = request.form.get('descricao')
-        foto_perfil = request.form.get('foto_perfil') # URL da imagem
+        foto_perfil = request.form.get('foto_perfil')
+        whatsapp = request.form.get('whatsapp') # Novo
+        instagram = request.form.get('instagram') # Novo
         hashed_password = generate_password_hash(password)
 
         db = get_db()
         try:
             c = db.cursor()
-            c.execute("INSERT INTO lojas (nome_loja, email, password, endereco, telefone, descricao, foto_perfil) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                      (nome_loja, email, hashed_password, endereco, telefone, descricao, foto_perfil))
+            c.execute("INSERT INTO lojas (nome_loja, email, password, endereco, telefone, descricao, foto_perfil, whatsapp, instagram) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        (nome_loja, email, hashed_password, endereco, telefone, descricao, foto_perfil, whatsapp, instagram))
             db.commit()
             flash('Registro de loja bem-sucedido! Faça login agora.', 'success')
             return redirect(url_for('login_loja'))
@@ -218,14 +243,16 @@ def register_tecnico():
         localizacao = request.form.get('localizacao')
         preco_hora = request.form.get('preco_hora')
         descricao = request.form.get('descricao')
-        foto_perfil = request.form.get('foto_perfil') # URL da imagem
+        foto_perfil = request.form.get('foto_perfil')
+        whatsapp = request.form.get('whatsapp') # Novo
+        instagram = request.form.get('instagram') # Novo
         hashed_password = generate_password_hash(password)
 
         db = get_db()
         try:
             c = db.cursor()
-            c.execute("INSERT INTO tecnicos (nome, email, password, especialidade, localizacao, preco_hora, descricao, foto_perfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                      (nome, email, hashed_password, especialidade, localizacao, preco_hora, descricao, foto_perfil))
+            c.execute("INSERT INTO tecnicos (nome, email, password, especialidade, localizacao, preco_hora, descricao, foto_perfil, whatsapp, instagram) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        (nome, email, hashed_password, especialidade, localizacao, preco_hora, descricao, foto_perfil, whatsapp, instagram))
             db.commit()
             flash('Registro de técnico bem-sucedido! Faça login agora.', 'success')
             return redirect(url_for('login_tecnico'))
@@ -370,12 +397,22 @@ def avaliar():
 def tecnicos_list():
     db = get_db()
     c = db.cursor()
-    # Adiciona filtro por especialidade se houver na URL (ex: /tecnicos?service=Hardware)
     service_filter = request.args.get('service', 'all')
+
+    query = """
+        SELECT t.*, AVG(a.nota) as media_nota
+        FROM tecnicos t
+        LEFT JOIN avaliacoes a ON t.id = a.avaliado_id AND a.avaliado_tipo = 'tecnico'
+    """
+    params = []
+
     if service_filter != 'all':
-        c.execute("SELECT * FROM tecnicos WHERE especialidade LIKE ?", (f'%{service_filter}%',))
-    else:
-        c.execute("SELECT * FROM tecnicos")
+        query += " WHERE especialidade LIKE ?"
+        params.append(f'%{service_filter}%')
+
+    query += " GROUP BY t.id ORDER BY t.nome" # Ordenar por nome para consistência
+
+    c.execute(query, params)
     tecnicos = c.fetchall()
     return render_template('tecnicos_list.html', tecnicos=tecnicos)
 
@@ -384,7 +421,13 @@ def tecnicos_list():
 def lojas_list():
     db = get_db()
     c = db.cursor()
-    c.execute("SELECT * FROM lojas")
+    c.execute("""
+        SELECT l.*, AVG(a.nota) as media_nota
+        FROM lojas l
+        LEFT JOIN avaliacoes a ON l.id = a.avaliado_id AND a.avaliado_tipo = 'loja'
+        GROUP BY l.id
+        ORDER BY l.nome_loja
+    """)
     lojas = c.fetchall()
     return render_template('lojas_list.html', lojas=lojas)
 

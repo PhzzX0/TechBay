@@ -29,15 +29,19 @@
                                 <div class="flex justify-between items-start mb-4">
                                     <h3 class="text-xl font-bold">{{ loja.nome_loja }}</h3>
                                     <div class="flex items-center">
-                                        {# Avaliações estáticas por enquanto #}
                                         <span class="rating-stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
+                                            {% set media_nota = loja.media_nota if loja.media_nota is not none else 0 %}
+                                            {% for i in range(5) %}
+                                                {% if i < media_nota|round(0, 'floor') %}
+                                                    <i class="fas fa-star"></i>
+                                                {% elif i < media_nota %}
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
                                         </span>
-                                        <span class="ml-1 text-stone-700">4.0</span>
+                                        <span class="ml-1 text-stone-700">{{ "%.1f"|format(media_nota) }}</span>
                                     </div>
                                 </div>
                                 <p class="text-stone-600 mb-4">{{ loja.descricao if loja.descricao else 'Loja de eletrônicos e informática.' }}</p>
