@@ -11,7 +11,7 @@
                 <a href="{{ url_for('index') }}#services" class="hover:text-stone-300 font-medium">Serviços</a>
                 <a href="{{ url_for('tecnicos_list') }}" class="hover:text-stone-300 font-medium">Técnicos</a>
                 <a href="{{ url_for('lojas_list') }}" class="hover:text-stone-300 font-medium">Lojas</a>
-                <a href="{{ url_for('index') }}#about" class="hover:text-stone-300 font-medium">Sobre</a>
+                <a href="#footer" class="hover:text-stone-300 font-medium">Sobre</a>
             </nav>
             <div class="flex items-center space-x-4">
                 {% if session.get('logged_in') %}

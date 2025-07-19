@@ -11,7 +11,37 @@
 </head>
 
 <body class="font-sans bg-stone-50 flex flex-col min-h-screen">
-    {% include 'header.html' %}
+    <!-- Header/Navbar -->
+    <header class="header-bg text-white shadow-xl fixed w-full top-0 z-10">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-laptop-code text-3xl"></i>
+                    <a href="{{ url_for('index') }}" class="text-2xl font-bold">TechBay</a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="hover:text-stone-300 font-medium">Início</a>
+                    <a href="#services" class="hover:text-stone-300 font-medium">Serviços</a>
+                    <a href="#technicians" class="hover:text-stone-300 font-medium">Técnicos</a>
+                    <a href="#stores" class="hover:text-stone-300 font-medium">Lojas</a>
+                    <a href="#footer" class="hover:text-stone-300 font-medium">Sobre</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    {% if session.get('logged_in') %}
+                        <span class="text-white font-medium">Olá, {{ session.get('username') }}!</span>
+                        <a href="{{ url_for('logout') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Sair</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="bg-white text-stone-800 px-4 py-2 rounded-lg font-medium hover:bg-stone-300 transition">Login</a>
+                        <a href="{{ url_for('register') }}" class="hidden md:block bg-stone-900 bg-opacity-50 text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-75 transition">Cadastre-se</a>
+                        <a href="{{ url_for('parceiro_cadastro') }}" class="bg-red-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition hidden md:block">Seja nosso parceiro</a>
+                    {% endif %}
+                    <button class="md:hidden text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
     <!-- Início -->
     <section id="home" class="gradient-bg text-white md:py-24 py-16 pt-40">
         {% with messages = get_flashed_messages(with_categories=true) %}
