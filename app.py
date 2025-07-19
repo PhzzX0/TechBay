@@ -388,6 +388,11 @@ def lojas_list():
     lojas = c.fetchall()
     return render_template('lojas_list.html', lojas=lojas)
 
+# Rota para função ainda não implementada
+@app.route('/notimp')
+def notimp():
+    return render_template('/notimp.html')
+
 if __name__ == '__main__':
     # Garante que o banco de dados seja inicializado apenas uma vez ao iniciar o app
     # Se o arquivo database.db já existir, ele não será recriado.

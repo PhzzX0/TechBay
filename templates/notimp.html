@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - TechBay</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-stone-50 flex flex-col min-h-screen">
+    {% include 'header.html' %}
+    <section class="flex-grow flex items-center justify-center w-full mt-32 mb-16">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-3xl font-bold text-center mb-4 text-stone-800">Página ainda não implementada <i class="text-center fa-solid fa-triangle-exclamation"></i></h2>
+            <div class="mt-8 flex justify-center">    
+                <a href="{{ url_for('index') }}" class="gradient-bg opacity-85 text-white px-6 py-3 rounded-lg font-bold hover:opacity-100 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar para o Início
+                </a>
+            </div>
+        </div>
+    </section>
+    {% include 'mobile_menu.html' %}
+    {% include 'footer.html' %}
+</body>
+</html>
