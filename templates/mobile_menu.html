@@ -8,19 +8,18 @@
         </div>
         <nav class="space-y-6">
             <a href="{{ url_for('index') }}#home" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Início</a>
-            <a href="{{ url_for('index') }}#services" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Serviços</a>
             <a href="{{ url_for('tecnicos_list') }}" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Técnicos</a>
             <a href="{{ url_for('lojas_list') }}" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Lojas</a>
-            <a href="{{ url_for('index') }}#about" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Sobre</a>
-            <div class="pt-6 space-y-4">
+            <a href="#footer" class="block text-xl font-medium text-stone-900 hover:text-stone-800">Sobre</a>
+            <div class="pt-4 space-y-10">
                 {% if session.get('logged_in') %}
-                    <span class="block text-xl font-medium text-stone-900">Olá, {{ session.get('username') }}!</span>
+                    <span class="text-xl font-medium text-stone-900">Olá, {{ session.get('username') }}!</span>
                     <a href="{{ url_for('logout') }}" class="w-full bg-stone-800 text-white px-4 py-3 rounded-lg font-medium hover:bg-stone-700 transition text-center">Sair</a>
                 {% else %}
                     <a href="{{ url_for('login') }}" class="w-full bg-stone-800 text-white px-4 py-3 rounded-lg font-medium hover:bg-stone-700 transition text-center">Login</a>
                     <a href="{{ url_for('register') }}" class="w-full border border-stone-800 text-stone-800 px-4 py-3 rounded-lg font-medium hover:bg-stone-300 transition text-center">Cadastre-se</a>
-                    <hr class="border-stone-200 my-4">
-                    <a href="{{ url_for('parceiro_cadastro') }}" class="w-full bg-red-700 text-white px-4 py-3 rounded-lg font-medium hover:bg-red-600 transition text-center">Seja nosso parceiro</a>
+                    <hr class="border-stone-200 pb-4">
+                    <a href="{{ url_for('parceiro_cadastro') }}" class="w-full text-stone-800 px-4 rounded-lg font-medium hover:text-stone-300">Seja nosso parceiro</a>
                 {% endif %}
             </div>
         </nav>
@@ -44,19 +43,16 @@
                 });
             }
 
-            // Ajuste para fechar o menu ao clicar em um link
-            document.querySelectorAll('#mobileMenu a').forEach(anchor => { // Removido o filtro [href^="#"]
+            document.querySelectorAll('#mobileMenu a').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
-                    // Se o link for para uma âncora interna na mesma página, faça o scroll
                     if (this.getAttribute('href').startsWith('#')) {
-                        e.preventDefault(); // Previne o comportamento padrão apenas para âncoras internas
+                        e.preventDefault();
                         const targetId = this.getAttribute('href');
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
                             targetElement.scrollIntoView({ behavior: 'smooth' });
                         }
                     }
-                    // Em ambos os casos (âncora interna ou link para outra página), feche o menu
                     mobileMenu.classList.add('hidden');
                 });
             });
