@@ -8,20 +8,6 @@
                     <h3 class="text-2xl font-bold">TechBay</h3>
                 </div>
                 <p class="text-stone-400">Conectando você com os melhores técnicos e lojas de eletrônicos da sua região.</p>
-                <div class="flex space-x-4 mt-6">
-                    <a href="#" class="text-stone-400 hover:text-white transition">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-stone-400 hover:text-white transition">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-stone-400 hover:text-white transition">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-stone-400 hover:text-white transition">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Links Rápidos</h4>
@@ -29,15 +15,24 @@
                     <li><a href="{{ url_for('index') }}#home" class="text-stone-400 hover:text-white transition">Início</a></li>
                     <li><a href="{{ url_for('tecnicos_list') }}" class="text-stone-400 hover:text-white transition">Técnicos</a></li>
                     <li><a href="{{ url_for('lojas_list') }}" class="text-stone-400 hover:text-white transition">Lojas</a></li>
-                    <li><a href="{{ url_for('index') }}#about" class="text-stone-400 hover:text-white transition">Sobre Nós</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="text-lg font-semibold mb-4">Serviços</h4>
-                <ul class="space-y-2">
-                    <li><a href="{{ url_for('tecnicos_list') }}" class="text-stone-400 hover:text-white transition">Técnicos Parceiros</a></li>
-                    <li><a href="{{ url_for('lojas_list') }}" class="text-stone-400 hover:text-white transition">Lojas Parceiras</a></li>
-                </ul>
+                <h4 class="text-lg font-semibold mb-4">Social</h4>
+                <div class="flex space-x-8 mt-6">
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f fa-xl"></i>
+                    </a>
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-twitter fa-xl"></i>
+                    </a>
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-instagram fa-xl"></i>
+                    </a>
+                    <a href="#" class="text-stone-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in fa-xl"></i>
+                    </a>
+                </div>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Contato</h4>
