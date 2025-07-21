@@ -40,11 +40,10 @@ def init_db():
                 email TEXT UNIQUE NOT NULL,
                 password TEXT NOT NULL,
                 endereco TEXT,
-                telefone TEXT,
                 descricao TEXT,
                 foto_perfil TEXT,
-                whatsapp TEXT, -- Nova coluna
-                instagram TEXT -- Nova coluna
+                whatsapp TEXT,
+                instagram TEXT
             )
         ''')
         c.execute('''
@@ -57,10 +56,9 @@ def init_db():
                 localizacao TEXT,
                 preco_hora REAL,
                 foto_perfil TEXT,
-                status TEXT DEFAULT 'Offline',
                 descricao TEXT,
-                whatsapp TEXT, -- Nova coluna
-                instagram TEXT -- Nova coluna
+                whatsapp TEXT,
+                instagram TEXT
             )
         ''')
         c.execute('''
@@ -188,18 +186,17 @@ def register_loja():
         email = request.form['email']
         password = request.form['password']
         endereco = request.form.get('endereco')
-        telefone = request.form.get('telefone')
         descricao = request.form.get('descricao')
         foto_perfil = request.form.get('foto_perfil')
-        whatsapp = request.form.get('whatsapp') # Novo
-        instagram = request.form.get('instagram') # Novo
+        whatsapp = request.form.get('whatsapp')
+        instagram = request.form.get('instagram')
         hashed_password = generate_password_hash(password)
 
         db = get_db()
         try:
             c = db.cursor()
-            c.execute("INSERT INTO lojas (nome_loja, email, password, endereco, telefone, descricao, foto_perfil, whatsapp, instagram) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        (nome_loja, email, hashed_password, endereco, telefone, descricao, foto_perfil, whatsapp, instagram))
+            c.execute("INSERT INTO lojas (nome_loja, email, password, endereco, descricao, foto_perfil, whatsapp, instagram) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        (nome_loja, email, hashed_password, endereco, descricao, foto_perfil, whatsapp, instagram))
             db.commit()
             flash('Registro de loja bem-sucedido! Faça login agora.', 'success')
             return redirect(url_for('login_loja'))

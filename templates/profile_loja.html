@@ -39,10 +39,6 @@
                                 <i class="fas fa-map-marker-alt mr-2"></i>
                                 <span>{{ loja.endereco if loja.endereco else 'Endereço não informado' }}</span>
                             </div>
-                            <div class="flex items-center text-stone-600">
-                                <i class="fas fa-phone-alt mr-2"></i>
-                                <span>{{ loja.telefone if loja.telefone else 'Telefone não informado' }}</span>
-                            </div>
                             {% if loja.whatsapp %}
                             <div class="flex items-center text-stone-600 mt-2">
                                 <i class="fab fa-whatsapp mr-2"></i>
@@ -106,7 +102,7 @@
                                 <input type="number" id="nota" name="nota" min="1" max="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-stone-700 leading-tight focus:outline-none focus:shadow-outline" required>
                             </div>
                             <div class="mb-4">
-                                <label for="comentario" class="block text-stone-700 text-sm font-bold mb-2">Comentário (Opcional):</label>
+                                <label for="comentario" class="block text-stone-700 text-sm font-bold mb-2">Comentário:</label>
                                 <textarea id="comentario" name="comentario" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-stone-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                             </div>
                             <button type="submit" class="gradient-bg opacity-85 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:opacity-100 transition">
